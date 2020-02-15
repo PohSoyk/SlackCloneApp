@@ -1,6 +1,14 @@
 <template>
-  <div>
+  <div class="app-layout">
+    <div class="sidebar">
+      <p>チャンネル一覧</p>
+      <p>#general</p>
+      <p>#randum</p>
+      <p>#randum</p>
+    </div>
+    <div class="main-content">
     <nuxt />
+    </div>
   </div>
 </template>
 
@@ -51,5 +59,27 @@ html {
 .button--grey:hover {
   color: #fff;
   background-color: #35495e;
+}
+
+.app-layout {
+  display: flex;
+}
+
+.sidebar {
+  width: 300px;
+  background: #4A4141;
+  height: 100vh;
+  padding: 20px;
+}
+
+.main-content {
+  width: 100%;
+  background: #f1f1f1;
+  height: 100vh;
+}
+
+.sidebar p {
+  color: #dddddd;
+  padding-top: 4px;
 }
 </style>
