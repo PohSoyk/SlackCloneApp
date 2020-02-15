@@ -1,6 +1,6 @@
 <template>
  <div class="input-container">
-   <textarea></textarea>
+   <textarea @click="login"></textarea>
  </div>
 </template>
 
@@ -15,3 +15,13 @@ textarea {
  height: 100%;
 }
 </style>
+
+<script>
+export default {
+  methods: {
+    login() {
+      window.alert('ログインしろよ')
+    }
+  }
+}
+</script>

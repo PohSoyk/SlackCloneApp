@@ -1,11 +1,11 @@
 <template>
  <div class="chat-container">
    <div class="thumbnail-container">
-     <img src="https://pbs.twimg.com/profile_images/1095378300225019904/17wfi0ZD_400x400.jpg" />
+     <img v-bind:src="message.user.thumbnail" />
    </div>
    <div class="message-container">
-     <div class="user-name">hokuro.jump</div>
-     <div class="message">今日も良い天気ですね</div>
+     <div class="user-name">{{ displayName }}</div>
+     <div class="message">{{ message.text }}</div>
    </div>
  </div>
 </template>
@@ -30,3 +30,24 @@
  font-weight: bold;
 }
 </style>
+
+<script>
+export default {
+ data() {
+   return {
+     message: {
+       text: '今日もいい天気ですね',
+       user: {
+         thumbnail: 'https://pbs.twimg.com/profile_images/1095378300225019904/17wfi0ZD_400x400.jpg',
+         name: 'note'
+       }
+     }
+   }
+  },
+  computed: {
+    displayName() {
+      return `@${this.message.user.name}`
+    }
+  }
+ }
+</script>

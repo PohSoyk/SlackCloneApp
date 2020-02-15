@@ -28,10 +28,10 @@ export default {
 
 .chats-layout {
   overflow: scroll;
-  height: 90%
+  height: 90%;
 }
 
 .input-layout {
-  height: 10%
+  height: 10%;
 }
 </style>
