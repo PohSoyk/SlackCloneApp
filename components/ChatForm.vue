@@ -1,6 +1,6 @@
 <template>
  <div class="input-container">
-   <textarea @click="login"></textarea>
+   <textarea v-model="text" v-on:keydown.enter="addMessage"></textarea>
  </div>
 </template>
 
@@ -17,10 +17,26 @@ textarea {
 </style>
 
 <script>
+import { db } from '~/plugins/firebase.js'
+
 export default {
+  data () {
+    return {
+      text: null
+    }
+  },
   methods: {
-    login() {
-      window.alert('ログインしろよ')
+   addMessage(event) {
+     if (this.keyDownedForJPConversion(event)) { return }
+     const channelId = this.$route.params.id
+     db.collection('channels').doc(channelId).collection('messages').add({ text: this.text })
+       .then(() => {
+         this.text = null
+      })
+    },
+    keyDownedForJPConversion (event) {
+      const codeForConversion = 229
+      return event.keyCode === codeForConversion
     }
   }
 }

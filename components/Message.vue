@@ -1,10 +1,10 @@
 <template>
  <div class="chat-container">
-   <div class="thumbnail-container">
+   <!-- <div class="thumbnail-container">
      <img v-bind:src="message.user.thumbnail" />
-   </div>
+   </div> -->
    <div class="message-container">
-     <div class="user-name">{{ displayName }}</div>
+     <!-- <div class="user-name">{{ displayName }}</div> -->
      <div class="message">{{ message.text }}</div>
    </div>
  </div>
@@ -33,17 +33,7 @@
 
 <script>
 export default {
- data() {
-   return {
-     message: {
-       text: '今日もいい天気ですね',
-       user: {
-         thumbnail: 'https://pbs.twimg.com/profile_images/1095378300225019904/17wfi0ZD_400x400.jpg',
-         name: 'note'
-       }
-     }
-   }
-  },
+ props: ['message'],
   computed: {
     displayName() {
       return `@${this.message.user.name}`

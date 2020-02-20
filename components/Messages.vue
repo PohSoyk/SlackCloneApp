@@ -1,17 +1,6 @@
 <template>
   <div class="chats-container">
-    <message />
-    <message />
-    <message />
-    <message />
-    <message />
-    <message />
-    <message />
-    <message />
-    <message />
-    <message />
-    <message />
-    <message />
+    <message v-for="(message, key) in messages" :key="key" :message="message"/>
   </div>
 </template>
 
@@ -19,6 +8,7 @@
 import Message from '~/components/Message.vue'
 
 export default {
+  props: ['messages'],
   components: {
     Message
   }
