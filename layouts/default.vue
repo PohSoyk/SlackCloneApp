@@ -92,7 +92,7 @@ html {
 
 <script>
 import { db, firebase } from "~/plugins/firebase.js";
-import { mapActions } from 'vuex'
+import { mapActions } from "vuex";
 
 export default {
   data() {
@@ -106,13 +106,13 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['setUser']),
+    ...mapActions(["setUser"]),
     logout() {
       firebase
         .auth()
         .signOut()
         .then(() => {
-          this.setUser(null)
+          this.setUser(null);
           window.alert("ログアウトに成功！");
         })
         .catch(e => {
@@ -122,6 +122,11 @@ export default {
     }
   },
   mounted() {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.setUser(user);
+      }
+    });
     db.collection("channels")
       .get()
       .then(querySnapshot => {
