@@ -1,46 +1,51 @@
 <template>
- <div class="input-container">
-   <textarea v-model="text" v-on:keydown.enter="addMessage"></textarea>
- </div>
+  <div class="input-container">
+    <textarea v-model="text" v-on:keydown.enter="addMessage"></textarea>
+  </div>
 </template>
 
 <style scoped>
 .input-container {
- padding: 10px;
- height: 100%;
+  padding: 10px;
+  height: 100%;
 }
 
 textarea {
- width: 100%;
- height: 100%;
+  width: 100%;
+  height: 100%;
 }
 </style>
 
 <script>
-import { db } from '~/plugins/firebase.js'
+import { db } from "~/plugins/firebase.js";
 
 export default {
-  data () {
+  data() {
     return {
       text: null
-    }
+    };
   },
   methods: {
-   addMessage(event) {
-     if (this.keyDownedForJPConversion(event)) { return }
-     const channelId = this.$route.params.id
-     db.collection('channels').doc(channelId).collection('messages').add({
-        text: this.text,
-        createdAt: new Date().getTime()
-      })
-       .then(() => {
-         this.text = null
-      })
+    addMessage(event) {
+      if (this.keyDownedForJPConversion(event)) {
+        return;
+      }
+      const channelId = this.$route.params.id;
+      db.collection("channels")
+        .doc(channelId)
+        .collection("messages")
+        .add({
+          text: this.text,
+          createdAt: new Date().getTime()
+        })
+        .then(() => {
+          this.text = null;
+        });
     },
-    keyDownedForJPConversion (event) {
-      const codeForConversion = 229
-      return event.keyCode === codeForConversion
+    keyDownedForJPConversion(event) {
+      const codeForConversion = 229;
+      return event.keyCode === codeForConversion;
     }
   }
-}
+};
 </script>

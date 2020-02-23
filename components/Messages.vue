@@ -1,18 +1,18 @@
 <template>
   <div class="chats-container">
-    <message v-for="(message, key) in messages" :key="key" :message="message"/>
+    <message v-for="(message, key) in messages" :key="key" :message="message" />
   </div>
 </template>
 
 <script>
-import Message from '~/components/Message.vue'
+import Message from "~/components/Message.vue";
 
 export default {
-  props: ['messages'],
+  props: ["messages"],
   components: {
     Message
   }
-}
+};
 </script>
 
 <style scoped>
