@@ -1,6 +1,8 @@
 <template>
   <div class="input-container">
-    <textarea v-model="text" v-on:click="openLoginModal" v-on:keydown.enter="addMessage"></textarea>
+    <img v-if="isAuthenticated" :src="user.photoURL" class="avatar" />
+    <textarea v-model="text" v-if="isAuthenticated" v-on:keydown.enter="addMessage"></textarea>
+    <textarea v-model="text" v-else v-on:click="openLoginModal"></textarea>
     <el-dialog title :visible.sync="dialogVisible" width="30%">
       <div class="image-container">
         <img src="~/assets/google_sign_in.png" v-on:click="login" />
@@ -13,6 +15,12 @@
 .input-container {
   padding: 10px;
   height: 100%;
+  display: flex;
+}
+
+.avatar {
+  height: 100%;
+  width: auto;
 }
 
 textarea {
@@ -35,7 +43,7 @@ img {
 import { db, firebase } from "~/plugins/firebase.js";
 
 import Vue from "vue";
-import { mapActions } from 'vuex'
+import { mapActions } from "vuex";
 import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 Vue.use(ElementUI);
@@ -47,8 +55,16 @@ export default {
       text: null
     };
   },
+  computed: {
+    user() {
+      return this.$store.state.user;
+    },
+    isAuthenticated() {
+      return this.$store.getters.isAuthenticated;
+    }
+  },
   methods: {
-    ...mapActions(['setUser']),
+    ...mapActions(["setUser"]),
     openLoginModal() {
       this.dialogVisible = true;
     },
@@ -62,7 +78,11 @@ export default {
         .collection("messages")
         .add({
           text: this.text,
-          createdAt: new Date().getTime()
+          createdAt: new Date().getTime(),
+          user: {
+            name: this.user.displayName,
+            thumbnail: this.user.photoURL
+          }
         })
         .then(() => {
           this.text = null;
@@ -79,9 +99,9 @@ export default {
         .signInWithPopup(provider)
         .then(result => {
           const user = result.user;
-          this.setUser(user)
-          console.log(this.$store.state.user)
-          this.dialogVisible = false
+          this.setUser(user);
+          console.log(this.$store.state.user);
+          this.dialogVisible = false;
         })
         .catch(() => {
           window.alert(error);
