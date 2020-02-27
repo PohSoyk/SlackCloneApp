@@ -100,7 +100,6 @@ export default {
         .then(result => {
           const user = result.user;
           this.setUser(user);
-          console.log(this.$store.state.user);
           this.dialogVisible = false;
         })
         .catch(() => {
