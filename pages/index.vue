@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <button v-on:click="login">ログイン</button>
+    
   </div>
 </template>
 
