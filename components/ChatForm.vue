@@ -3,10 +3,11 @@
     <img v-if="isAuthenticated" :src="user.photoURL" class="avatar" />
     <textarea v-model="text" v-if="isAuthenticated" v-on:keydown.enter="addMessage"></textarea>
     <textarea v-model="text" v-else v-on:click="openLoginModal"></textarea>
+    <el-button type="info"  plain class="button">
+      <i class="el-icon-camera"></i>
+      画像をアップロード
+      </el-button>
     <el-dialog title :visible.sync="dialogVisible" width="380px" center>
-      <!-- <div class="image-container">
-        <img src="~/assets/google_sign_in.png" v-on:click="login" />
-      </div>-->
       <form class="box">
         <h1>Login</h1>
         <input type="text" name placeholder="Username" value="Googleでログインしてね" />
@@ -30,12 +31,18 @@
           </a>
         </div>
       </form>
-      <loginform />
     </el-dialog>
   </div>
 </template>
 
 <style scoped>
+.button{
+  font-size: 15px;
+  line-height: 0px;
+}
+.el-icon-camera {
+  font-size: 18px;
+}
 .input-container {
   padding: 10px;
   height: 100%;
@@ -62,16 +69,6 @@ img {
   cursor: pointer;
 }
 
-/* l-dialog {
-  width: 380px;
-  padding: 40px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%,0%);
-  background: #191919;
-  text-align: center;
-} */
 
 .box h1 {
   color: black;
@@ -163,18 +160,18 @@ import { db, firebase } from "~/plugins/firebase.js";
 
 import Vue from "vue";
 import { mapActions } from "vuex";
-import ElementUI from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
-Vue.use(ElementUI);
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { fas } from "@fortawesome/free-solid-svg-icons";
-import { far } from "@fortawesome/free-regular-svg-icons";
-import { fab } from "@fortawesome/free-brands-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-library.add(fas, far, fab);
-Vue.component("font-awesome-icon", FontAwesomeIcon);
-import { dom } from "@fortawesome/fontawesome-svg-core";
-dom.watch();
+// import ElementUI from "element-ui";
+// import "element-ui/lib/theme-chalk/index.css";
+// Vue.use(ElementUI);
+// import { library } from "@fortawesome/fontawesome-svg-core";
+// import { fas } from "@fortawesome/free-solid-svg-icons";
+// import { far } from "@fortawesome/free-regular-svg-icons";
+// import { fab } from "@fortawesome/free-brands-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+// library.add(fas, far, fab);
+// Vue.component("font-awesome-icon", FontAwesomeIcon);
+// import { dom } from "@fortawesome/fontawesome-svg-core";
+// dom.watch();
 export default {
   data() {
     return {

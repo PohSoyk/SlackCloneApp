@@ -3,15 +3,16 @@ import 'firebase/auth'
 import 'firebase/firestore'
 
 if (!firebase.apps.length) {
-  const config = {
-    apiKey: "AIzaSyAGYFYCiv3b46fh8eh1I6masN6UZqOVXLk",
-    authDomain: "slack-clone-app-d4ef6.firebaseapp.com",
-    databaseURL: "https://slack-clone-app-d4ef6.firebaseio.com",
-    projectId: "slack-clone-app-d4ef6",
-    storageBucket: "slack-clone-app-d4ef6.appspot.com",
-    messagingSenderId: "454330002218"
+  const firebaseConfig = {
+    apiKey: process.env.FIREBASE_API_KEY,
+    authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+    databaseURL: process.env.FIREBASE_DATABASE_URL,
+    projectId: process.env.FIREBASE_PROJECT_ID,
+    storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.FIREBASE_MASSAGENG_SENDER_ID,
+    appId: process.env.FIREBASE_APP_ID
   }
-  firebase.initializeApp(config)
+  firebase.initializeApp(firebaseConfig)
 }
 
 const db = firebase.firestore()

@@ -33,7 +33,7 @@ html {
   margin: 0;
 }
 
-.button--green {
+/* .button--green {
   display: inline-block;
   border-radius: 4px;
   border: 1px solid #3b8070;
@@ -60,7 +60,7 @@ html {
 .button--grey:hover {
   color: #fff;
   background-color: #35495e;
-}
+} */
 
 .app-layout {
   display: flex;
