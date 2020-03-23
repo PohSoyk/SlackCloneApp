@@ -3,10 +3,17 @@
     <img v-if="isAuthenticated" :src="user.photoURL" class="avatar" />
     <textarea v-model="text" v-if="isAuthenticated" v-on:keydown.enter="addMessage"></textarea>
     <textarea v-model="text" v-else v-on:click="openLoginModal"></textarea>
-    <el-button type="info"  plain class="button">
-      <i class="el-icon-camera"></i>
-      画像をアップロード
+    <el-upload
+      v-if="isAuthenticated"
+      action=""
+      :show-file-list="false"
+      :http-request="uploadFile"
+      >
+      <el-button type="info"  plain class="button">
+        <i class="el-icon-camera"></i>
+        画像をアップロード
       </el-button>
+    </el-upload>
     <el-dialog title :visible.sync="dialogVisible" width="380px" center>
       <form class="box">
         <h1>Login</h1>
@@ -36,13 +43,6 @@
 </template>
 
 <style scoped>
-.button{
-  font-size: 15px;
-  line-height: 0px;
-}
-.el-icon-camera {
-  font-size: 18px;
-}
 .input-container {
   padding: 10px;
   height: 100%;
@@ -59,16 +59,16 @@ textarea {
   height: 100%;
 }
 
-.image-container {
-  display: flex;
-  justify-content: center;
+.button{
+  font-size: 15px;
+  line-height: 0px;
+  padding: 23px 20px;
 }
 
-img {
-  width: 70%;
-  cursor: pointer;
+.el-icon-camera {
+  font-size: 18px;
+  vertical-align: text-bottom;
 }
-
 
 .box h1 {
   color: black;
@@ -150,9 +150,7 @@ input::placeholder {
 .s-m a i {
   transition: 0.4s all;
 }
-.s-m a:hover > i {
-  transform: scale(1.6) rotate(25deg);
-}
+
 </style>
 
 <script>
@@ -160,23 +158,13 @@ import { db, firebase } from "~/plugins/firebase.js";
 
 import Vue from "vue";
 import { mapActions } from "vuex";
-// import ElementUI from "element-ui";
-// import "element-ui/lib/theme-chalk/index.css";
-// Vue.use(ElementUI);
-// import { library } from "@fortawesome/fontawesome-svg-core";
-// import { fas } from "@fortawesome/free-solid-svg-icons";
-// import { far } from "@fortawesome/free-regular-svg-icons";
-// import { fab } from "@fortawesome/free-brands-svg-icons";
-// import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-// library.add(fas, far, fab);
-// Vue.component("font-awesome-icon", FontAwesomeIcon);
-// import { dom } from "@fortawesome/fontawesome-svg-core";
-// dom.watch();
+
 export default {
   data() {
     return {
       dialogVisible: false,
-      text: null
+      text: null,
+      imageUrl: null
     };
   },
   computed: {
@@ -195,6 +183,7 @@ export default {
     addMessage(event) {
       if (this.keyDownedForJPConversion(event)) {
         return;
+        debugger
       }
       const channelId = this.$route.params.id;
       db.collection("channels")
@@ -229,6 +218,26 @@ export default {
         .catch(() => {
           window.alert(error);
         });
+    },
+    async uploadFile (deta){
+      const storageRef = firebase.storage().ref()
+      const time = new Date().getTime()
+      const ref = storageRef.child(`massages/${time}_${deta.file.name}`)
+      const snapshot =await ref.put(deta.file)
+      const url = await snapshot.ref.getDownloadURL()
+      this.imageUrl = url
+      const channelId = this.$route.params.id;
+      db.collection("channels")
+        .doc(channelId)
+        .collection("messages")
+        .add({
+          image: this.imageUrl,
+          createdAt: new Date().getTime(),
+          user: {
+            name: this.user.displayName,
+            thumbnail: this.user.photoURL
+          }
+        })
     }
   }
 };
